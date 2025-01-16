@@ -6,12 +6,15 @@ import {
   Param,
   Put,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AitService } from './aits.service';
-import { CreateAitDto } from './dto/create-ait.dto';
+import { CreateAitDto } from './dtos/create-ait.dto';
 import { Ait } from './entities/ait.entity';
-import { UpdateAitDto } from './dto/update-ait.dto';
+import { UpdateAitDto } from './dtos/update-ait.dto';
+import { PaginationDto } from 'src/dtos/pagination.dto';
+import { PaginationResult } from 'src/interfaces/pagination';
 
 @ApiTags('AITs')
 @Controller('aits')
@@ -29,11 +32,23 @@ export class AitController {
     return this.aitService.create(data);
   }
 
-  @ApiOperation({ summary: 'Retrieve all AITs' })
-  @ApiResponse({ status: 200, description: 'List of all AITs', type: [Ait] })
+  @ApiOperation({ summary: 'Retrieve all AITs with pagination' })
+  @ApiResponse({
+    status: 200,
+    description: 'Paginated list of AITs',
+    schema: {
+      type: 'object',
+      properties: {
+        data: { type: 'array', items: { $ref: '#/components/schemas/Ait' } },
+        total: { type: 'number' },
+      },
+    },
+  })
   @Get()
-  findAll(): Promise<Ait[]> {
-    return this.aitService.findAll();
+  findAll(
+    @Query() paginationDto: PaginationDto,
+  ): Promise<PaginationResult<Ait>> {
+    return this.aitService.findAll(paginationDto);
   }
 
   @ApiOperation({ summary: 'Retrieve a single AIT by ID' })

@@ -2,8 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ait } from './entities/ait.entity';
-import { CreateAitDto } from './dto/create-ait.dto';
-import { UpdateAitDto } from './dto/update-ait.dto';
+import { CreateAitDto } from './dtos/create-ait.dto';
+import { UpdateAitDto } from './dtos/update-ait.dto';
+import { PaginationDto } from '../dtos/pagination.dto';
+import { PaginationResult } from 'src/interfaces/pagination';
 
 @Injectable()
 export class AitService {
@@ -17,8 +19,14 @@ export class AitService {
     return this.aitRepository.save(ait);
   }
 
-  async findAll(): Promise<Ait[]> {
-    return this.aitRepository.find();
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<Ait>> {
+    const { page = 1, limit = 10 } = paginationDto;
+    const [data, total] = await this.aitRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    return { data, total };
   }
 
   async findOne(id: string): Promise<Ait> {

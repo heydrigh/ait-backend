@@ -9,7 +9,7 @@ export class CreateAitDto {
 
   @ApiProperty({
     description: 'Date and time of the infraction',
-    example: '2023-05-25T14:30:00Z',
+    example: '2023-05-25T14:30:00.000Z',
   })
   @IsDate()
   @IsNotEmpty()

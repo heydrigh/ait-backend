@@ -16,7 +16,7 @@ export class Ait {
 
   @ApiProperty({
     description: 'Date and time of the infraction',
-    example: '2023-05-25T14:30:00Z',
+    example: '2023-05-25T14:30:00.000Z',
   })
   @Column({ type: 'timestamptz' })
   data_infracao: Date;
