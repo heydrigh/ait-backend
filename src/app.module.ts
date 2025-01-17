@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configurationService } from './config/config.service';
 import { ProducerModule } from './producer/producer.module';
+// import { ConsumerService } from './consumer/consumer.service';
 
 @Module({
   imports: [
@@ -16,5 +17,6 @@ import { ProducerModule } from './producer/producer.module';
   ],
   controllers: [],
   providers: [],
+  // providers: [ConsumerService], REPLACE THIS WHEN TESTING THE CONSUMPTION OF THE QUEUE
 })
 export class AppModule {}
