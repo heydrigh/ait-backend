@@ -51,13 +51,6 @@ export class AitController {
     return this.aitService.findAll(paginationDto);
   }
 
-  @ApiOperation({ summary: 'Retrieve a single AIT by ID' })
-  @ApiResponse({ status: 200, description: 'The AIT details', type: Ait })
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<Ait> {
-    return this.aitService.findOne(id);
-  }
-
   @ApiOperation({ summary: 'Update an AIT by ID' })
   @ApiResponse({ status: 200, description: 'The updated AIT', type: Ait })
   @Put(':id')
@@ -70,5 +63,19 @@ export class AitController {
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {
     return this.aitService.remove(id);
+  }
+
+  @ApiOperation({ summary: 'Process and download AITs as a CSV file' })
+  @Post('process')
+  async process(): Promise<{ message: string }> {
+    await this.aitService.process();
+    return { message: 'AIT data sent to the queue' };
+  }
+
+  @ApiOperation({ summary: 'Retrieve a single AIT by ID' })
+  @ApiResponse({ status: 200, description: 'The AIT details', type: Ait })
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<Ait> {
+    return this.aitService.findOne(id);
   }
 }

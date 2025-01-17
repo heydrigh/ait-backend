@@ -3,6 +3,7 @@ import { AitsModule } from './aits/aits.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configurationService } from './config/config.service';
+import { ProducerModule } from './producer/producer.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { configurationService } from './config/config.service';
     }),
     TypeOrmModule.forRoot(configurationService.getTypeOrmConfig()),
     AitsModule,
+    ProducerModule,
   ],
   controllers: [],
   providers: [],
